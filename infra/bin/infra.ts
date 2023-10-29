@@ -2,20 +2,24 @@
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
 import { InfraStack } from '../lib/infra-stack';
+import { GlobalResourcesStack } from '../lib/global-resources-stack';
+import { projectName } from '../lib/constants';
+import { stageConfigurations } from '../lib/stage-configurations';
 
 const app = new cdk.App();
-new InfraStack(app, 'InfraStack', {
-  /* If you don't specify 'env', this stack will be environment-agnostic.
-   * Account/Region-dependent features and context lookups will not work,
-   * but a single synthesized template can be deployed anywhere. */
-
-  /* Uncomment the next line to specialize this stack for the AWS Account
-   * and Region that are implied by the current CLI configuration. */
-  // env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION },
-
-  /* Uncomment the next line if you know exactly what Account and Region you
-   * want to deploy the stack to. */
-  // env: { account: '123456789012', region: 'us-east-1' },
-
-  /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
+const nVirginia = 'us-east-1';
+const stockholm = 'eu-north-1';
+const account = process.env.CDK_DEFAULT_ACCOUNT;
+stageConfigurations.forEach(stageConfig => {
+  const globalResourcesStack = new GlobalResourcesStack(app, `${projectName}-frontend-global-resources-${nVirginia}-${stageConfig.stageName}`, {
+    env: { region: nVirginia, account: account },
+    crossRegionReferences: true,
+    stageConfig: stageConfig
+  });
+  
+  new InfraStack(app, `${projectName}-frontend-${stockholm}`, {
+    env: { region: stockholm, account: account },
+    certificate: globalResourcesStack.certificate,
+    crossRegionReferences: true
+  });
 });

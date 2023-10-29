@@ -8,8 +8,10 @@ import { S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
 import { CloudFrontTarget } from 'aws-cdk-lib/aws-route53-targets';
 import { BucketDeployment, Source } from 'aws-cdk-lib/aws-s3-deployment';
 import { apexDomain, projectName } from './constants';
+import { StageConfiguration } from './stage-configurations';
 
 interface InfraStackProps extends cdk.StackProps {
+  stageConfig: StageConfiguration,
   certificate: Certificate
 }
 
@@ -27,13 +29,16 @@ export class InfraStack extends cdk.Stack {
       domainName: apexDomain
     });
 
+    const stageName = props.stageConfig.stageName;
     const originAccessIdentity = new OriginAccessIdentity(this, 'OriginAccessIdentity', {
-      comment: `Origin Access Identity for ${projectName}.`
+      comment: `Origin Access Identity for ${projectName} ${stageName}.`
     });
     originAccessIdentity.applyRemovalPolicy(cdk.RemovalPolicy.DESTROY);
     websiteBucket.grantRead(originAccessIdentity);
 
-    const baseDomain = `${projectName}.${apexDomain}`;
+    const stageSubDomain = props.stageConfig.stageSubDomain;
+    const projectStageSubDomain = `${stageSubDomain}${projectName}`;
+    const fullStageDomain = `${projectStageSubDomain}.${apexDomain}`;
     const distribution = new Distribution(this, 'Distribution', {
       defaultBehavior: {
         origin: new S3Origin(websiteBucket, {
@@ -41,14 +46,14 @@ export class InfraStack extends cdk.Stack {
         }),
         viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS
       },
-      domainNames: [baseDomain],
+      domainNames: [fullStageDomain],
       certificate: props.certificate,
       defaultRootObject: 'index.html'
     });
 
     new ARecord(this, 'CloudFrontARecord', {
       zone: hostedZone,
-      recordName: projectName,
+      recordName: projectStageSubDomain,
       target: RecordTarget.fromAlias(new CloudFrontTarget(distribution)),
       ttl: cdk.Duration.seconds(0)  // TODO: reset to default?
     });

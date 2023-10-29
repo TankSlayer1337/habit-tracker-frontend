@@ -9,5 +9,13 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <!-- script below added according to https://ui.docs.amplify.aws/react/getting-started/troubleshooting -->
+    <script>
+      window.global = window;
+      window.process = {
+        env: { DEBUG: undefined },
+      }
+      var exports = {};
+    </script>
   </body>
 </html>

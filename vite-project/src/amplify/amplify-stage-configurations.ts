@@ -25,7 +25,7 @@ export const localhostConfig: AmplifyStageConfiguration = {
 export const devConfig: AmplifyStageConfiguration = {
   userPoolId: devUserPoolId,
   userPoolWebClientId: devUserPoolWebClientId,
-  redirectUrl: `https://dev.${projectName}.api.${apexDomain}`,
+  redirectUrl: `https://dev.${projectName}.${apexDomain}`,
   cognitoDomain: `${projectName}-dev.${cognitoAuthDomain}`,
   apiScope: `https://dev.${projectName}.api.${apexDomain}/*`,
   fullStageDomain: `dev.${projectName}.${apexDomain}`
@@ -34,7 +34,7 @@ export const devConfig: AmplifyStageConfiguration = {
 export const prodConfig: AmplifyStageConfiguration = {
   userPoolId: 'eu-north-1_9skDdFFqG',
   userPoolWebClientId: '6275dl256vvdcs0satj7oms4hg',
-  redirectUrl: `https://${projectName}.api.${apexDomain}`,
+  redirectUrl: `https://${projectName}.${apexDomain}`,
   cognitoDomain: `${projectName}-prod.${cognitoAuthDomain}`,
   apiScope: `https://prod.${projectName}.api.${apexDomain}/*`,
   fullStageDomain: `${projectName}.${apexDomain}`

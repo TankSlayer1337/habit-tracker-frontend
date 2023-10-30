@@ -1,21 +1,27 @@
-import { apexDomain, projectName } from "./amplify/constants";
+import { Stage } from "./stage-environments/stage";
+import { StageResolver } from "./stage-environments/stage-resolver";
+import { ApiUrl } from "./stage-environments/api-url";
 
 export class ApiUrlProvider {
-    private static apiUrl: string;
-  
-    public static getApiUrl(): string {
-      return ApiUrlProvider.apiUrl ?? this.isLocalHost() ? `https://dev.${projectName}.api.${apexDomain}` : `https://prod.${projectName}.api.${apexDomain}`;
+  private static apiUrl: string;
+
+  public static getApiUrl(): string {
+    if (this.apiUrl) {
+      return this.apiUrl;
     }
-  
-    static isLocalHost(): boolean {
-      return Boolean(
-        window.location.hostname === "localhost" ||
-        // [::1] is the IPv6 localhost address.
-        window.location.hostname === "[::1]" ||
-        // 127.0.0.1/8 is considered localhost for IPv4.
-        window.location.hostname.match(
-          /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
-        )
-      );
+
+    const stage = StageResolver.resolve();
+    switch (stage) {
+      case Stage.Dev:
+        this.apiUrl = ApiUrl.dev;
+        break;
+      case Stage.Prod:
+        this.apiUrl = ApiUrl.prod;
+        break;
+      default:
+        throw Error('Failed to resolve stage API URL.')
     }
+
+    return this.apiUrl;
   }
+}

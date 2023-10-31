@@ -1,6 +1,6 @@
 import './DisplayHabit.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faMinus, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { HabitRecord } from "../models/habit-record";
 import { DoneHabit } from "../models/done-habit";
 
@@ -47,7 +47,7 @@ const DisplayHabit = ({ habitRecord, updateDoneHabit, setDisplayEdit }: DisplayH
     const fullDate = `${date.year}-${date.month}-${date.day}`;
     return (
       <div key={fullDate}>
-        <button onClick={() => toggleDoneHabit(fullDate)}>{habitRecord.dates.includes(fullDate) ? 'X' : '-'}</button>
+        <button onClick={() => toggleDoneHabit(fullDate)}>{habitRecord.dates.includes(fullDate) ? <FontAwesomeIcon icon={faCheck} /> : <FontAwesomeIcon icon={faMinus} />}</button>
         <p className='date'>{date.day}/{date.month}</p>
       </div>
     )

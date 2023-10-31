@@ -1,12 +1,20 @@
 import { AmplifyUser } from "@aws-amplify/ui";
-import { HabitDefinition } from "../models/habit-definition";
 import HabitListItem from "./HabitListItem";
+import { HabitRecord } from "../models/habit-record";
+import { DoneHabit } from "../models/done-habit";
 
-const MovieList = ({ user, habits, onEdit }: { user: AmplifyUser, habits: HabitDefinition[], onEdit: Function }) => {
+interface HabitListProps {
+  user: AmplifyUser,
+  habitRecords: HabitRecord[],
+  updateDoneHabit: (doneHabit: DoneHabit, httpMethod: string) => Promise<void>,
+  onEdit: Function
+}
 
-  const habitItems = habits.map(habit =>
+const HabitList = ({ user, habitRecords, updateDoneHabit, onEdit }: HabitListProps) => {
+
+  const habitItems = habitRecords.map(habit =>
     <li key={habit.habitId}>
-      <HabitListItem user={user} habit={habit} onEdit={onEdit}></HabitListItem>
+      <HabitListItem user={user} habitRecord={habit} updateDoneHabit={updateDoneHabit} onEdit={onEdit}></HabitListItem>
     </li>
   );
 
@@ -20,4 +28,4 @@ const MovieList = ({ user, habits, onEdit }: { user: AmplifyUser, habits: HabitD
   )
 }
 
-export default MovieList;
+export default HabitList;

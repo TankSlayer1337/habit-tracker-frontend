@@ -2,14 +2,13 @@ import { AmplifyUser } from "@aws-amplify/ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-import { ApiUrlProvider } from "../../api-url-provider";
 import Spinner from "../../spinner/Spinner";
 import { HabitDefinition } from "../models/habit-definition";
 import HabitForm from "../HabitForm";
-import { UpdateHabitRequest } from "../models/update-habit-request";
+import { ApiCaller } from "../../api-caller";
 
 const EditHabit = ({ user, habit, onEdit, setDisplayEdit }: { user: AmplifyUser, habit: HabitDefinition, onEdit: Function, setDisplayEdit: Function }) => {
-  const [request, setRequest] = useState<UpdateHabitRequest>({
+  const [request, setRequest] = useState<HabitDefinition>({
     ...habit
   });
   const [awaitingResponse, setAwaitingResponse] = useState<boolean>(false);
@@ -17,42 +16,17 @@ const EditHabit = ({ user, habit, onEdit, setDisplayEdit }: { user: AmplifyUser,
   const deleteHabit = async () => {
     setAwaitingResponse(true);
     try {
-      const url = ApiUrlProvider.getApiUrl() + '/habits/' + habit.habitId;
-      const accessToken = user.getSignInUserSession()?.getAccessToken().getJwtToken();
-      const response = await fetch(url, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${accessToken}`
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error('Habit deletion was unsuccessful.');
-      }
+      await ApiCaller.call(user, '/habits/' + habit.habitId, 'DELETE');
     } catch (error) {
       console.error('Error: ', error);
     }
-
     onEdit();
   }
 
   const updateHabit = async () => {
     setAwaitingResponse(true);
     try {
-      const url = ApiUrlProvider.getApiUrl() + '/habits/update';
-      const accessToken = user.getSignInUserSession()?.getAccessToken().getJwtToken();
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${accessToken}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(request)
-      });
-
-      if (!response.ok) {
-        throw new Error('Update habit request was unsuccessful.');
-      }
+      await ApiCaller.call(user, '/habits/update', 'POST', request);
     } catch (error) {
       console.error('Error: ', error);
     }

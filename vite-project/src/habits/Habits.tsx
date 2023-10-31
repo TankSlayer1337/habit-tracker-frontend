@@ -1,49 +1,45 @@
 import { AmplifyUser } from "@aws-amplify/ui";
 import { useEffect, useState } from "react";
-import { ApiUrlProvider } from "../api-url-provider";
 import Spinner from "../spinner/Spinner";
-import { HabitDefinition } from "./models/habit-definition";
 import AddHabit from "./AddHabit";
 import HabitList from "./list/HabitList";
+import { ApiCaller } from "../api-caller";
+import { HabitRecord } from "./models/habit-record";
+import { DoneHabit } from "./models/done-habit";
 
 const Movies = ({ user }: { user: AmplifyUser }) => {
-  const [habitDefinitions, setHabitDefinitions] = useState<HabitDefinition[]>([]);
+  const [habitRecords, setHabitRecords] = useState<HabitRecord[]>([]);
   const [awaitingResponse, setAwaitingResponse] = useState<boolean>(true);
 
-  const fetchHabitDefinitions = async () => {
+  const fetchHabitRecords = async () => {
     setAwaitingResponse(true);
     try {
-      const url = ApiUrlProvider.getApiUrl() + '/habits';
-      const accessToken = user.getSignInUserSession()?.getAccessToken().getJwtToken();
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${accessToken}`
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error('HabitDefinition retrieval was unsuccessful.');
-      }
-
-      const data = await response.json();
-      setHabitDefinitions(data);
+      const response = await ApiCaller.call(user, '/habits/records');
+      setHabitRecords(await response.json());
     } catch (error) {
       console.error('Error: ', error);
     }
-
     setAwaitingResponse(false);
   }
 
+  const callDoneHabitEndpoint = async (doneHabit: DoneHabit, httpMethod: string) => {
+    try {
+      await ApiCaller.call(user, '/habits/done', httpMethod, doneHabit);
+    } catch (error) {
+      console.error('Error: ', error);
+    }
+    fetchHabitRecords();
+  }
+
   useEffect(() => {
-    fetchHabitDefinitions();
+    fetchHabitRecords();
   }, []);
 
   return (
     <>
-      <AddHabit user={user!} onAdd={fetchHabitDefinitions}></AddHabit>
+      <AddHabit user={user!} onAdd={fetchHabitRecords}></AddHabit>
       {awaitingResponse ? <Spinner></Spinner> :
-        <HabitList user={user} habits={habitDefinitions} onEdit={fetchHabitDefinitions}></HabitList>
+        <HabitList user={user} habitRecords={habitRecords} updateDoneHabit={callDoneHabitEndpoint} onEdit={fetchHabitRecords}></HabitList>
       }
     </>
   )

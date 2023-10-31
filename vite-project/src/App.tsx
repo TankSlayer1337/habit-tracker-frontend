@@ -2,13 +2,15 @@ import './App.css'
 import '@aws-amplify/ui-react/styles.css';
 import { Authenticator } from '@aws-amplify/ui-react'
 import Habits from './habits/Habits';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 function App() {
   return (
     <Authenticator socialProviders={['google']}>
       {({ signOut }) => (
         <>
-          <button onClick={signOut}>Sign Out</button>
+          <button onClick={signOut}>Sign Out <FontAwesomeIcon icon={faRightFromBracket} /></button>
           <Habits></Habits>
         </>
       )}

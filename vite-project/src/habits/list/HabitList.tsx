@@ -1,3 +1,4 @@
+import './HabitList.css';
 import HabitListItem from "./HabitListItem";
 import { HabitRecord } from "../models/habit-record";
 import { DoneHabit } from "../models/done-habit";

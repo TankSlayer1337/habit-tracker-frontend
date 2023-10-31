@@ -1,11 +1,10 @@
-import { AmplifyUser } from "@aws-amplify/ui";
 import { useState } from "react";
 import Spinner from "../spinner/Spinner";
 import { CreateHabitRequest } from "./models/create-habit-request";
 import HabitForm from "./HabitForm";
 import { ApiCaller } from "../api-caller";
 
-const AddHabit = ({ user, onAdd }: { user: AmplifyUser, onAdd: Function }) => {
+const AddHabit = ({ onAdd }: { onAdd: Function }) => {
   const [request, setRequest] = useState<CreateHabitRequest>({
     name: ''
   });
@@ -14,7 +13,7 @@ const AddHabit = ({ user, onAdd }: { user: AmplifyUser, onAdd: Function }) => {
   const createHabit = async () => {
     setAwaitingResponse(true);
     try {
-      await ApiCaller.call(user, '/habits', 'POST', request);
+      await ApiCaller.call('/habits', 'POST', request);
     } catch (error) {
       console.error('Error: ', error);
     }

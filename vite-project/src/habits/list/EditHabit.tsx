@@ -1,4 +1,3 @@
-import { AmplifyUser } from "@aws-amplify/ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
@@ -7,7 +6,7 @@ import { HabitDefinition } from "../models/habit-definition";
 import HabitForm from "../HabitForm";
 import { ApiCaller } from "../../api-caller";
 
-const EditHabit = ({ user, habit, onEdit, setDisplayEdit }: { user: AmplifyUser, habit: HabitDefinition, onEdit: Function, setDisplayEdit: Function }) => {
+const EditHabit = ({ habit, onEdit, setDisplayEdit }: { habit: HabitDefinition, onEdit: Function, setDisplayEdit: Function }) => {
   const [request, setRequest] = useState<HabitDefinition>({
     ...habit
   });
@@ -16,7 +15,7 @@ const EditHabit = ({ user, habit, onEdit, setDisplayEdit }: { user: AmplifyUser,
   const deleteHabit = async () => {
     setAwaitingResponse(true);
     try {
-      await ApiCaller.call(user, '/habits/' + habit.habitId, 'DELETE');
+      await ApiCaller.call('/habits/' + habit.habitId, 'DELETE');
     } catch (error) {
       console.error('Error: ', error);
     }
@@ -26,7 +25,7 @@ const EditHabit = ({ user, habit, onEdit, setDisplayEdit }: { user: AmplifyUser,
   const updateHabit = async () => {
     setAwaitingResponse(true);
     try {
-      await ApiCaller.call(user, '/habits/update', 'POST', request);
+      await ApiCaller.call('/habits/update', 'POST', request);
     } catch (error) {
       console.error('Error: ', error);
     }

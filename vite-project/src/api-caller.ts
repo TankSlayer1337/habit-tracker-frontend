@@ -1,10 +1,11 @@
-import { AmplifyUser } from "@aws-amplify/ui";
 import { ApiUrlProvider } from "./api-url-provider";
+import { Auth } from "aws-amplify";
 
 export class ApiCaller {
-  public static async call(user: AmplifyUser, resource: string = '', method: string = 'GET', body?: object): Promise<globalThis.Response> {
+  public static async call(resource: string = '', method: string = 'GET', body?: object): Promise<globalThis.Response> {
     const url = ApiUrlProvider.getApiUrl() + resource;  
-    const accessToken = user.getSignInUserSession()?.getAccessToken().getJwtToken();
+    const session = await Auth.currentSession();
+    const accessToken = session.getAccessToken().getJwtToken();
     const requestInit: RequestInit = {
       method: method,
       headers: {

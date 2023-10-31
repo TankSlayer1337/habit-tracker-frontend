@@ -6,10 +6,10 @@ import Habits from './habits/Habits';
 function App() {
   return (
     <Authenticator socialProviders={['google']}>
-      {({ signOut, user }) => (
+      {({ signOut }) => (
         <>
           <button onClick={signOut}>Sign Out</button>
-          <Habits user={user!}></Habits>
+          <Habits></Habits>
         </>
       )}
     </Authenticator>

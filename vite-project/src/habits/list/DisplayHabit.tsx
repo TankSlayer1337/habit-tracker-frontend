@@ -41,6 +41,7 @@ const DisplayHabit = ({ habitRecord, updateDoneHabit, setDisplayEdit }: DisplayH
   return (
     <div>
       <h3>{habitRecord.name}</h3>
+      <p>Completed days: {habitRecord.doneCount}</p>
       {recordButtons}
       <button onClick={() => setDisplayEdit(true)}>Edit <FontAwesomeIcon icon={faPenToSquare} /></button>
     </div>

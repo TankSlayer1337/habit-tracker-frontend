@@ -1,17 +1,25 @@
 import { AmplifyUser } from "@aws-amplify/ui";
 import { useState } from "react";
-import { HabitDefinition } from "../models/habit-definition";
 import DisplayHabit from "./DisplayHabit";
 import EditHabit from "./EditHabit";
+import { HabitRecord } from "../models/habit-record";
+import { DoneHabit } from "../models/done-habit";
 
-const HabitListItem = ({ user, habit, onEdit }: { user: AmplifyUser, habit: HabitDefinition, onEdit: Function }) => {
+interface HabitListItemProps {
+  user: AmplifyUser,
+  habitRecord: HabitRecord,
+  updateDoneHabit: (doneHabit: DoneHabit, httpMethod: string) => Promise<void>,
+  onEdit: Function
+}
+
+const HabitListItem = ({ user, habitRecord, updateDoneHabit, onEdit }: HabitListItemProps) => {
   const [displayEdit, setDisplayEdit] = useState<Boolean>();
 
   return (
     <div>
       {displayEdit ?
-        <EditHabit user={user} habit={habit} onEdit={onEdit} setDisplayEdit={setDisplayEdit}></EditHabit> :
-        <DisplayHabit habit={habit} setDisplayEdit={setDisplayEdit}></DisplayHabit>}
+        <EditHabit user={user} habit={habitRecord} onEdit={onEdit} setDisplayEdit={setDisplayEdit}></EditHabit> :
+        <DisplayHabit habitRecord={habitRecord} setDisplayEdit={setDisplayEdit} updateDoneHabit={updateDoneHabit}></DisplayHabit>}
     </div>
   )
 }

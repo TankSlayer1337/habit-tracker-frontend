@@ -14,6 +14,7 @@ const HabitForm = <RequestType extends CreateHabitRequest,>({ request, setReques
     <form>
       <label htmlFor="name">Name: </label>
       <input
+        autoComplete="off"
         value={request.name ?? ''}
         id="name"
         type="text"

@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faMinus, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { HabitRecord } from "../models/habit-record";
 import { DoneHabit } from "../models/done-habit";
+import { HabitDate } from './habit-date';
 
 interface DisplayHabitProps {
   habitRecord: HabitRecord,
@@ -10,25 +11,15 @@ interface DisplayHabitProps {
   setDisplayEdit: Function
 }
 
-interface SegregatedDate {
-  year: number,
-  month: number,
-  day: number
-}
-
 const DisplayHabit = ({ habitRecord, updateDoneHabit, setDisplayEdit }: DisplayHabitProps) => {
-  const getLastWeeksDates = (): SegregatedDate[] => {
+  const getLastWeeksDates = (): HabitDate[] => {
     const currentDate = new Date();
     const millisecondsPerDay = 24 * 60 * 60 * 1000;
-    let lastWeeksDates: SegregatedDate[] = [];
+    let lastWeeksDates: HabitDate[] = [];
     for (let i = 0; i < 7; i++) {
       const date = new Date(currentDate.getTime() - i * millisecondsPerDay);
-      const segregatedDate: SegregatedDate = {
-        year: date.getFullYear(),
-        month: date.getMonth() + 1, // getMonth returns 0-11.
-        day: date.getDate()
-      };
-      lastWeeksDates.push(segregatedDate);
+      const habitDate = new HabitDate(date);
+      lastWeeksDates.push(habitDate);
     }
     lastWeeksDates.reverse();
     return lastWeeksDates;
@@ -44,12 +35,10 @@ const DisplayHabit = ({ habitRecord, updateDoneHabit, setDisplayEdit }: DisplayH
   }
 
   const recordButtons = getLastWeeksDates().map(date => {
-    const paddedMonth = date.month.toString().padStart(2, '0');
-    const paddedDay = date.day.toString().padStart(2, '0');
-    const fullDate = `${date.year}-${paddedMonth}-${paddedDay}`;
+    const isDone = habitRecord.dates.includes(date.fullDate);
     return (
-      <div key={fullDate}>
-        <button onClick={() => toggleDoneHabit(fullDate)}>{habitRecord.dates.includes(fullDate) ? <FontAwesomeIcon icon={faCheck} /> : <FontAwesomeIcon icon={faMinus} />}</button>
+      <div key={date.fullDate}>
+        <button className={isDone ? 'done' : 'not-done'} onClick={() => toggleDoneHabit(date.fullDate)}>{isDone ? <FontAwesomeIcon icon={faCheck} /> : <FontAwesomeIcon icon={faMinus} />}</button>
         <p className='date'>{date.day}/{date.month}</p>
       </div>
     )

@@ -10,6 +10,7 @@ function App() {
     <Authenticator socialProviders={['google']}>
       {({ signOut }) => (
         <>
+          <h1>Habit-Tracker</h1>
           <button onClick={signOut}>Sign Out <FontAwesomeIcon icon={faRightFromBracket} /></button>
           <Habits></Habits>
         </>

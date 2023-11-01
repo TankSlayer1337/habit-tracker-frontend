@@ -1,3 +1,4 @@
+import './HabitListItem.css';
 import { useState } from "react";
 import DisplayHabit from "./DisplayHabit";
 import EditHabit from "./EditHabit";
@@ -14,7 +15,7 @@ const HabitListItem = ({ habitRecord, updateDoneHabit, onEdit }: HabitListItemPr
   const [displayEdit, setDisplayEdit] = useState<Boolean>();
 
   return (
-    <div>
+    <div className="list-item-container">
       {displayEdit ?
         <EditHabit habit={habitRecord} onEdit={onEdit} setDisplayEdit={setDisplayEdit}></EditHabit> :
         <DisplayHabit habitRecord={habitRecord} setDisplayEdit={setDisplayEdit} updateDoneHabit={updateDoneHabit}></DisplayHabit>}

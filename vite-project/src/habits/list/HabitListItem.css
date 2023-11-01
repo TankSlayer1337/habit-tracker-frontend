@@ -1,0 +1,8 @@
+.list-item-container {
+  background-color: #333333;
+  border-color: darkgray;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 10px;
+  margin: 5px;
+}

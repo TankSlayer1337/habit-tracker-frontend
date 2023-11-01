@@ -44,7 +44,9 @@ const DisplayHabit = ({ habitRecord, updateDoneHabit, setDisplayEdit }: DisplayH
   }
 
   const recordButtons = getLastWeeksDates().map(date => {
-    const fullDate = `${date.year}-${date.month}-${date.day}`;
+    const paddedMonth = date.month.toString().padStart(2, '0');
+    const paddedDay = date.day.toString().padStart(2, '0');
+    const fullDate = `${date.year}-${paddedMonth}-${paddedDay}`;
     return (
       <div key={fullDate}>
         <button onClick={() => toggleDoneHabit(fullDate)}>{habitRecord.dates.includes(fullDate) ? <FontAwesomeIcon icon={faCheck} /> : <FontAwesomeIcon icon={faMinus} />}</button>

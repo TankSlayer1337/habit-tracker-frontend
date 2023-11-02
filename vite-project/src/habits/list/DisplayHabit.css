@@ -12,6 +12,9 @@
   display: grid;
   grid-template-columns: 14.28% 14.28% 14.28% 14.28% 14.28% 14.28% 14.28%;
 }
+.habit-record-grid-container button {
+  width: 100%;
+}
 
 .done {
   background-color: #00FF54;

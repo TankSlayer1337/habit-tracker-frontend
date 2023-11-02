@@ -4,6 +4,7 @@ import { faCheck, faMinus, faPenToSquare } from "@fortawesome/free-solid-svg-ico
 import { HabitRecord } from "../models/habit-record";
 import { DoneHabit } from "../models/done-habit";
 import { HabitDate } from './habit-date';
+import { useEffect, useState } from 'react';
 
 interface DisplayHabitProps {
   habitRecord: HabitRecord,
@@ -12,7 +13,9 @@ interface DisplayHabitProps {
 }
 
 const DisplayHabit = ({ habitRecord, updateDoneHabit, setDisplayEdit }: DisplayHabitProps) => {
-  const getLastWeeksDates = (): HabitDate[] => {
+  const [lastWeeksDates, setLastWeeksDates] = useState<HabitDate[]>(getLastWeeksDates());
+
+  function getLastWeeksDates(): HabitDate[] {
     const currentDate = new Date();
     const millisecondsPerDay = 24 * 60 * 60 * 1000;
     let lastWeeksDates: HabitDate[] = [];
@@ -34,7 +37,19 @@ const DisplayHabit = ({ habitRecord, updateDoneHabit, setDisplayEdit }: DisplayH
     }
   }
 
-  const recordButtons = getLastWeeksDates().map(date => {
+  const updateDates = () => {
+    const currentDate = new Date().getDate();
+    if (lastWeeksDates[lastWeeksDates.length - 1].day != currentDate) {
+      setLastWeeksDates(getLastWeeksDates());
+    }
+  }
+
+  useEffect(() => {
+    const intervalId = window.setInterval(updateDates, 1000);
+    return () => window.clearInterval(intervalId);
+  }, []);
+
+  const recordButtons = lastWeeksDates.map(date => {
     const isDone = habitRecord.dates.includes(date.fullDate);
     return (
       <div key={date.fullDate}>

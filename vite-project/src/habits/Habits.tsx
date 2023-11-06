@@ -4,7 +4,7 @@ import AddHabit from "./AddHabit";
 import HabitList from "./list/HabitList";
 import { ApiCaller } from "../api-caller";
 import { HabitRecord } from "./models/habit-record";
-import { DoneHabit } from "./models/done-habit";
+import { DoneHabitRequest } from "./models/done-habit-request";
 
 const Habits = () => {
   const [habitRecords, setHabitRecords] = useState<HabitRecord[]>([]);
@@ -21,7 +21,7 @@ const Habits = () => {
     setAwaitingResponse(false);
   }
 
-  const callDoneHabitEndpoint = async (doneHabit: DoneHabit, httpMethod: string) => {
+  const callDoneHabitEndpoint = async (doneHabit: DoneHabitRequest, httpMethod: string) => {
     try {
       await ApiCaller.call('/habits/done', httpMethod, doneHabit);
     } catch (error) {

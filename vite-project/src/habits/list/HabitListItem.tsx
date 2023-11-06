@@ -3,11 +3,11 @@ import { useState } from "react";
 import DisplayHabit from "./DisplayHabit";
 import EditHabit from "./EditHabit";
 import { HabitRecord } from "../models/habit-record";
-import { DoneHabit } from "../models/done-habit";
+import { DoneHabitRequest } from "../models/done-habit-request";
 
 interface HabitListItemProps {
   habitRecord: HabitRecord,
-  updateDoneHabit: (doneHabit: DoneHabit, httpMethod: string) => Promise<void>,
+  updateDoneHabit: (doneHabit: DoneHabitRequest, httpMethod: string) => Promise<void>,
   onEdit: Function
 }
 

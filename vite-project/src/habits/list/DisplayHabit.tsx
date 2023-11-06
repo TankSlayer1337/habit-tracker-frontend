@@ -25,7 +25,6 @@ const DisplayHabit = ({ habitRecord, updateDoneHabit, setDisplayEdit }: DisplayH
       lastWeeksDates.push(habitDate);
     }
     lastWeeksDates.reverse();
-    console.log(lastWeeksDates);
     return lastWeeksDates;
   }
 
@@ -51,7 +50,6 @@ const DisplayHabit = ({ habitRecord, updateDoneHabit, setDisplayEdit }: DisplayH
   }, []);
 
   const recordButtons = lastWeeksDates.map(date => {
-    console.log(habitRecord.doneDates);
     const isDone = habitRecord.doneDates.some(doneDate => date.isEqualTo(doneDate));
     return (
       <div key={`${date.year}-${date.month}-${date.day}`}>

@@ -2,13 +2,13 @@ import './DisplayHabit.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faMinus, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { HabitRecord } from "../models/habit-record";
-import { DoneHabit } from "../models/done-habit";
-import { HabitDate } from './habit-date';
+import { DoneHabitRequest } from "../models/done-habit-request";
+import { HabitDate } from '../models/habit-date';
 import { useEffect, useState } from 'react';
 
 interface DisplayHabitProps {
   habitRecord: HabitRecord,
-  updateDoneHabit: (doneHabit: DoneHabit, httpMethod: string) => Promise<void>,
+  updateDoneHabit: (doneHabit: DoneHabitRequest, httpMethod: string) => Promise<void>,
   setDisplayEdit: Function
 }
 
@@ -28,9 +28,9 @@ const DisplayHabit = ({ habitRecord, updateDoneHabit, setDisplayEdit }: DisplayH
     return lastWeeksDates;
   }
 
-  const toggleDoneHabit = async (date: string) => {
-    const doneHabit: DoneHabit = { habitId: habitRecord.habitId, date: date };
-    if (habitRecord.dates.includes(date)) {
+  const toggleDoneHabit = async (date: HabitDate) => {
+    const doneHabit: DoneHabitRequest = { habitId: habitRecord.habitId, date: date };
+    if (habitRecord.doneDates.some(doneDate => date.isEqualTo(doneDate))) {
       await updateDoneHabit(doneHabit, 'DELETE');
     } else {
       await updateDoneHabit(doneHabit, 'POST');
@@ -50,10 +50,10 @@ const DisplayHabit = ({ habitRecord, updateDoneHabit, setDisplayEdit }: DisplayH
   }, []);
 
   const recordButtons = lastWeeksDates.map(date => {
-    const isDone = habitRecord.dates.includes(date.fullDate);
+    const isDone = habitRecord.doneDates.some(doneDate => date.isEqualTo(doneDate));
     return (
-      <div key={date.fullDate}>
-        <button className={isDone ? 'done' : 'not-done'} onClick={() => toggleDoneHabit(date.fullDate)}>{isDone ? <FontAwesomeIcon icon={faCheck} /> : <FontAwesomeIcon icon={faMinus} />}</button>
+      <div key={`${date.year}-${date.month}-${date.day}`}>
+        <button className={isDone ? 'done' : 'not-done'} onClick={() => toggleDoneHabit(date)}>{isDone ? <FontAwesomeIcon icon={faCheck} /> : <FontAwesomeIcon icon={faMinus} />}</button>
         <p className='date'>{date.day}/{date.month}</p>
       </div>
     )
@@ -65,7 +65,7 @@ const DisplayHabit = ({ habitRecord, updateDoneHabit, setDisplayEdit }: DisplayH
       <div className='display-habit-header'>
         <h3>{habitRecord.name}</h3>
         <button className='edit-button' onClick={() => setDisplayEdit(true)}>Edit <FontAwesomeIcon icon={faPenToSquare} /></button>
-        <p>Days completed: {habitRecord.doneCount}</p>
+        <p>Days completed: {habitRecord.allTimeDoneDatesCount}</p>
       </div>      
       <div className="habit-record-grid-container">
         {recordButtons}

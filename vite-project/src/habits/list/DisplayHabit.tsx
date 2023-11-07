@@ -1,18 +1,18 @@
 import './DisplayHabit.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faMinus, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { HabitRecord } from "../models/habit-record";
-import { DoneHabitRequest } from "../models/done-habit-request";
 import { HabitDate } from '../models/habit-date';
 import { useEffect, useState } from 'react';
+import RecordButton from './record-button/RecordButton';
 
 interface DisplayHabitProps {
   habitRecord: HabitRecord,
-  updateDoneHabit: (doneHabit: DoneHabitRequest, httpMethod: string) => Promise<void>,
+  reloadRecords: () => Promise<void>,
   setDisplayEdit: Function
 }
 
-const DisplayHabit = ({ habitRecord, updateDoneHabit, setDisplayEdit }: DisplayHabitProps) => {
+const DisplayHabit = ({ habitRecord, reloadRecords, setDisplayEdit }: DisplayHabitProps) => {
   const [lastWeeksDates, setLastWeeksDates] = useState<HabitDate[]>(getLastWeeksDates());
 
   function getLastWeeksDates(): HabitDate[] {
@@ -26,15 +26,6 @@ const DisplayHabit = ({ habitRecord, updateDoneHabit, setDisplayEdit }: DisplayH
     }
     lastWeeksDates.reverse();
     return lastWeeksDates;
-  }
-
-  const toggleDoneHabit = async (date: HabitDate) => {
-    const doneHabit: DoneHabitRequest = { habitId: habitRecord.habitId, date: date };
-    if (habitRecord.doneDates.some(doneDate => date.isEqualTo(doneDate))) {
-      await updateDoneHabit(doneHabit, 'DELETE');
-    } else {
-      await updateDoneHabit(doneHabit, 'POST');
-    }
   }
 
   const updateDates = () => {
@@ -53,7 +44,7 @@ const DisplayHabit = ({ habitRecord, updateDoneHabit, setDisplayEdit }: DisplayH
     const isDone = habitRecord.doneDates.some(doneDate => date.isEqualTo(doneDate));
     return (
       <div key={`${date.year}-${date.month}-${date.day}`}>
-        <button className={isDone ? 'done' : 'not-done'} onClick={() => toggleDoneHabit(date)}>{isDone ? <FontAwesomeIcon icon={faCheck} /> : <FontAwesomeIcon icon={faMinus} />}</button>
+        <RecordButton habitId={habitRecord.habitId} date={date} isDone={isDone} reloadRecord={reloadRecords} key={`${isDone}`}></RecordButton>
         <p className='date'>{date.day}/{date.month}</p>
       </div>
     )

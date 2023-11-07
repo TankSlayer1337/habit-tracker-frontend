@@ -3,22 +3,21 @@ import { useState } from "react";
 import DisplayHabit from "./DisplayHabit";
 import EditHabit from "./EditHabit";
 import { HabitRecord } from "../models/habit-record";
-import { DoneHabitRequest } from "../models/done-habit-request";
 
 interface HabitListItemProps {
   habitRecord: HabitRecord,
-  updateDoneHabit: (doneHabit: DoneHabitRequest, httpMethod: string) => Promise<void>,
+  reloadRecords: () => Promise<void>,
   onEdit: Function
 }
 
-const HabitListItem = ({ habitRecord, updateDoneHabit, onEdit }: HabitListItemProps) => {
+const HabitListItem = ({ habitRecord, reloadRecords, onEdit }: HabitListItemProps) => {
   const [displayEdit, setDisplayEdit] = useState<Boolean>();
 
   return (
     <div className="habit-card">
       {displayEdit ?
         <EditHabit habit={habitRecord} onEdit={onEdit} setDisplayEdit={setDisplayEdit}></EditHabit> :
-        <DisplayHabit habitRecord={habitRecord} setDisplayEdit={setDisplayEdit} updateDoneHabit={updateDoneHabit}></DisplayHabit>}
+        <DisplayHabit habitRecord={habitRecord} setDisplayEdit={setDisplayEdit} reloadRecords={reloadRecords}></DisplayHabit>}
     </div>
   )
 }

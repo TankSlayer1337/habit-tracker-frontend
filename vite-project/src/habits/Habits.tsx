@@ -34,10 +34,14 @@ const Habits = () => {
     fetchHabitRecords();
   }, []);
 
+  const showSpinner = (): Boolean => {
+    return awaitingResponse && (habitRecords === undefined || habitRecords.length == 0)
+  }
+
   return (
     <>
       <AddHabit onAdd={fetchHabitRecords}></AddHabit>
-      {awaitingResponse ? <Spinner></Spinner> :
+      {showSpinner() ? <Spinner></Spinner> :
         <HabitList habitRecords={habitRecords} updateDoneHabit={callDoneHabitEndpoint} onEdit={fetchHabitRecords}></HabitList>
       }
     </>

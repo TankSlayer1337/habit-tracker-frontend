@@ -1,3 +1,4 @@
+import './HabitForm.css';
 import { ChangeEvent } from "react";
 import { CreateHabitRequest } from "./models/create-habit-request";
 
@@ -11,7 +12,7 @@ const HabitForm = <RequestType extends CreateHabitRequest,>({ request, setReques
   }
 
   return (
-    <form>
+    <form className='form-container'>
       <label htmlFor="name">Name: </label>
       <input
         autoComplete="off"

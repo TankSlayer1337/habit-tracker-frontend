@@ -6,7 +6,7 @@ import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 function App() {
   return (
-    <Authenticator socialProviders={['google']}>
+    <Authenticator socialProviders={['google']} hideSignUp>
       {({ signOut }) => (
         <>
           <h1>Habit-Tracker</h1>

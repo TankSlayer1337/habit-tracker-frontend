@@ -1,3 +1,4 @@
+import './Habits.css';
 import { useState } from "react";
 import Spinner from "../spinner/Spinner";
 import { CreateHabitRequest } from "./models/create-habit-request";
@@ -23,8 +24,8 @@ const AddHabit = ({ onAdd }: { onAdd: Function }) => {
   }
 
   return (
-    <div>
-      <h4>Create habit</h4>
+    <div className='habit-card'>
+      <h3>Create habit</h3>
       <HabitForm request={request} setRequest={setRequest}></HabitForm>
       {awaitingResponse ? <Spinner></Spinner> : <button onClick={createHabit}>Create</button>}
     </div>

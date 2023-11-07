@@ -20,6 +20,7 @@ const HabitList = ({ habitRecords, updateDoneHabit, onEdit }: HabitListProps) =>
   return (
     <div>
       <h2>Habits</h2>
+      { habitRecords.length == 0 && <p>Add some habits to see them listed here.</p>}
       <ul>
         {habitItems}
       </ul>

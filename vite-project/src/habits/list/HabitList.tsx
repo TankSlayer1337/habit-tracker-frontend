@@ -1,19 +1,18 @@
 import './HabitList.css';
 import HabitListItem from "./HabitListItem";
 import { HabitRecord } from "../models/habit-record";
-import { DoneHabitRequest } from "../models/done-habit-request";
 
 interface HabitListProps {
   habitRecords: HabitRecord[],
-  updateDoneHabit: (doneHabit: DoneHabitRequest, httpMethod: string) => Promise<void>,
+  reloadRecords: () => Promise<void>,
   onEdit: Function
 }
 
-const HabitList = ({ habitRecords, updateDoneHabit, onEdit }: HabitListProps) => {
+const HabitList = ({ habitRecords, reloadRecords, onEdit }: HabitListProps) => {
 
   const habitItems = habitRecords.map(habitRecord =>
     <li key={habitRecord.habitId}>
-      <HabitListItem habitRecord={habitRecord} updateDoneHabit={updateDoneHabit} onEdit={onEdit}></HabitListItem>
+      <HabitListItem habitRecord={habitRecord} reloadRecords={reloadRecords} onEdit={onEdit}></HabitListItem>
     </li>
   );
 

@@ -4,7 +4,6 @@ import AddHabit from "./AddHabit";
 import HabitList from "./list/HabitList";
 import { ApiCaller } from "../api-caller";
 import { HabitRecord } from "./models/habit-record";
-import { DoneHabitRequest } from "./models/done-habit-request";
 
 const Habits = () => {
   const [habitRecords, setHabitRecords] = useState<HabitRecord[]>([]);
@@ -21,15 +20,6 @@ const Habits = () => {
     setAwaitingResponse(false);
   }
 
-  const callDoneHabitEndpoint = async (doneHabit: DoneHabitRequest, httpMethod: string) => {
-    try {
-      await ApiCaller.call('/habits/done', httpMethod, doneHabit);
-    } catch (error) {
-      console.error('Error: ', error);
-    }
-    fetchHabitRecords();
-  }
-
   useEffect(() => {
     fetchHabitRecords();
   }, []);
@@ -42,7 +32,7 @@ const Habits = () => {
     <>
       <AddHabit onAdd={fetchHabitRecords}></AddHabit>
       {showSpinner() ? <Spinner></Spinner> :
-        <HabitList habitRecords={habitRecords} updateDoneHabit={callDoneHabitEndpoint} onEdit={fetchHabitRecords}></HabitList>
+        <HabitList habitRecords={habitRecords} reloadRecords={fetchHabitRecords} onEdit={fetchHabitRecords}></HabitList>
       }
     </>
   )

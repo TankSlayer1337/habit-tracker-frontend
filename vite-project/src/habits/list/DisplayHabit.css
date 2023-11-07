@@ -15,11 +15,3 @@
 .habit-record-grid-container button {
   width: 100%;
 }
-
-.done {
-  background-color: #00FF54;
-}
-
-.not-done {
-  background-color: #3F4469;
-}

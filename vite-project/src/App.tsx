@@ -12,6 +12,7 @@ function App() {
         <>
           <h1>Habit-Tracker</h1>
           <button onClick={signOut}>Sign Out <FontAwesomeIcon icon={faRightFromBracket} /></button>
+          <p>Disclaimer: this app is under development and everything is subject to change. Your data may get deleted.</p>
           <Habits></Habits>
         </>
       )}

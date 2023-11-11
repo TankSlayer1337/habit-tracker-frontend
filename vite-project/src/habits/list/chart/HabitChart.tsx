@@ -37,7 +37,7 @@ const HabitChart = ({ chartData }: HabitChartProps) => {
     }
     // Seems like since Material Charts is in beta, types aren't available.
     // @ts-ignore
-    const chart = new google.charts.Line(chartElement.current, google.charts.Line.convertOptions);
+    const chart = new google.charts.Line(chartElement.current);
     // @ts-ignore
     chart.draw(data, google.charts.Line.convertOptions(options));
   }

@@ -35,7 +35,7 @@ const EditHabit = ({ habit, onEdit, setDisplayEdit }: { habit: HabitDefinition, 
 
   return (
     <div>
-      <HabitForm request={request} setRequest={setRequest}></HabitForm>
+      <HabitForm request={request} setRequest={setRequest} onSubmit={updateHabit}></HabitForm>
       {awaitingResponse ? <Spinner></Spinner> :
       <>
         <button onClick={() => updateHabit()}>Save Changes</button>

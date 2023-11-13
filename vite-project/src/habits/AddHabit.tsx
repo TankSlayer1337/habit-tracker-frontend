@@ -26,7 +26,7 @@ const AddHabit = ({ onAdd }: { onAdd: Function }) => {
   return (
     <div className='habit-card'>
       <h3>Create habit</h3>
-      <HabitForm request={request} setRequest={setRequest}></HabitForm>
+      <HabitForm request={request} setRequest={setRequest} onSubmit={createHabit}></HabitForm>
       {awaitingResponse ? <Spinner></Spinner> : <button onClick={createHabit}>Create</button>}
     </div>
   )

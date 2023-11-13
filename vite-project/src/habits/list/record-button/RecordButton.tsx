@@ -16,6 +16,7 @@ interface RecordButtonProps {
 
 const RecordButton = ({habitId, date, isDone, reloadRecord}: RecordButtonProps) => {
   const [animationClassName, setAnimationClassName] = useState<string>('');
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
 
   const callDoneHabitEndpoint = async (doneHabit: DoneHabitRequest, httpMethod: string) => {
     try {
@@ -27,6 +28,7 @@ const RecordButton = ({habitId, date, isDone, reloadRecord}: RecordButtonProps) 
   }
 
   const toggleDoneHabit = async () => {
+    setIsDisabled(true);
     const doneHabit: DoneHabitRequest = { habitId: habitId, date: date };
     if (isDone) {
       setAnimationClassName('not-done-pending');
@@ -38,7 +40,7 @@ const RecordButton = ({habitId, date, isDone, reloadRecord}: RecordButtonProps) 
   }
 
   return (
-    <button className={`${isDone ? 'done' : 'not-done'} ${animationClassName}`} onClick={toggleDoneHabit}>{isDone ? <FontAwesomeIcon icon={faCheck} /> : <FontAwesomeIcon icon={faMinus} />}</button>
+    <button className={`${isDone ? 'done' : 'not-done'} ${animationClassName}`} onClick={toggleDoneHabit} disabled={isDisabled}>{isDone ? <FontAwesomeIcon icon={faCheck} /> : <FontAwesomeIcon icon={faMinus} />}</button>
   )
 }
 

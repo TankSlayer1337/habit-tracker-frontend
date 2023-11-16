@@ -12,7 +12,7 @@ const Habits = () => {
   const fetchHabitRecords = async () => {
     setAwaitingResponse(true);
     try {
-      const response = await ApiCaller.call('/habits');
+      const response = await ApiCaller.call('/habits/records');
       setHabitRecords(await response.json());
     } catch (error) {
       console.error('Error: ', error);

@@ -1,6 +1,6 @@
 import './HabitChart.css';
 import { useEffect, useRef } from "react";
-import { ChartData } from "./chart-data";
+import { ChartData } from "../../models/chart-data";
 
 interface HabitChartProps {
   chartData: ChartData

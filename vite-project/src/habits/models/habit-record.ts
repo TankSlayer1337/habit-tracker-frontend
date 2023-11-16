@@ -1,3 +1,4 @@
+import { ChartData } from "./chart-data"
 import { HabitDate } from "./habit-date"
 
 export interface HabitRecord {
@@ -6,5 +7,6 @@ export interface HabitRecord {
   allTimeDoneDatesCount: number,
   startDate: HabitDate,
   endDate: HabitDate,
-  doneDates: HabitDate[]
+  doneDates: HabitDate[],
+  chartData: ChartData
 }

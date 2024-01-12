@@ -17,8 +17,7 @@ const HabitList = ({ habitRecords, reloadRecords, onEdit }: HabitListProps) => {
   );
 
   return (
-    <div>
-      <h2>Habits</h2>
+    <div className='habit-list'>
       { habitRecords.length == 0 && <p>Add some habits to see them listed here.</p>}
       <ul>
         {habitItems}

@@ -1,7 +1,12 @@
+.habit-list {
+  display: inline-block;
+}
+
 ul {
   padding-inline-start: 0;
 }
 
 li {
   list-style-type: none;
+  display: inline-block;
 }

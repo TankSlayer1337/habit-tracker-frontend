@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Spinner from "../spinner/Spinner";
-import AddHabit from "./AddHabit";
+import CreateHabit from "./CreateHabit";
 import HabitList from "./list/HabitList";
 import { ApiCaller } from "../api-caller";
 import { HabitRecord } from "./models/habit-record";
@@ -30,7 +30,7 @@ const Habits = () => {
 
   return (
     <>
-      <AddHabit onAdd={fetchHabitRecords}></AddHabit>
+      <CreateHabit onAdd={fetchHabitRecords}></CreateHabit>
       {showSpinner() ? <Spinner></Spinner> :
         <HabitList habitRecords={habitRecords} reloadRecords={fetchHabitRecords} onEdit={fetchHabitRecords}></HabitList>
       }

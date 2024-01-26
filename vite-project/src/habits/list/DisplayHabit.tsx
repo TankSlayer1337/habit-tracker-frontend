@@ -55,7 +55,7 @@ const DisplayHabit = ({ habitRecord, reloadRecords, setDisplayEdit }: DisplayHab
     <div>
       <div className='display-habit-header'>
         <h3>{habitRecord.name}</h3>
-        <button className='edit-button' onClick={() => setDisplayEdit(true)}>Edit <FontAwesomeIcon icon={faPenToSquare} /></button>
+        <button className='edit-button' onClick={() => setDisplayEdit(true)}><FontAwesomeIcon icon={faPenToSquare} /></button>
         <p>Days completed: {habitRecord.allTimeDoneDatesCount}</p>
       </div>      
       <div className="habit-record-grid-container">

@@ -1,5 +1,5 @@
 import './HabitForm.css';
-import { ChangeEvent } from "react";
+import { ChangeEvent, FormEvent } from "react";
 import { CreateHabitRequest } from "./models/create-habit-request";
 
 interface HabitFormProps {
@@ -17,10 +17,16 @@ const HabitForm = ({ request, setRequest, onSubmit }: HabitFormProps) => {
     });
   }
 
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    onSubmit();
+  }
+
   return (
-    <form className='form-container' onSubmit={() => onSubmit()}>
+    <form className='form-container' onSubmit={handleSubmit}>
       <label htmlFor="name">Name: </label>
       <input
+        autoFocus={true}
         autoComplete="off"
         value={request.name ?? ''}
         id="name"

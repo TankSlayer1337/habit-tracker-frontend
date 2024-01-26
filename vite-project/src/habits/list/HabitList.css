@@ -4,4 +4,6 @@ ul {
 
 li {
   list-style-type: none;
+  display: inline-block;
+  vertical-align: top;
 }

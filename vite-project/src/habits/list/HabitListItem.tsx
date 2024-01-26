@@ -1,7 +1,7 @@
 import '../Habits.css';
-import { useState } from "react";
-import DisplayHabit from "./DisplayHabit";
-import EditHabit from "./EditHabit";
+import { useState } from 'react';
+import DisplayHabit from './DisplayHabit';
+import EditHabit from './EditHabit';
 import HabitChart from './chart/HabitChart';
 import { HabitRecord } from '../models/habit-record';
 

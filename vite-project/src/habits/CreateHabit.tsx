@@ -5,7 +5,7 @@ import { CreateHabitRequest } from "./models/create-habit-request";
 import HabitForm from "./HabitForm";
 import { ApiCaller } from "../api-caller";
 
-const AddHabit = ({ onAdd }: { onAdd: Function }) => {
+const CreateHabit = ({ onAdd }: { onAdd: Function }) => {
   const [request, setRequest] = useState<CreateHabitRequest>({
     name: ''
   });
@@ -32,4 +32,4 @@ const AddHabit = ({ onAdd }: { onAdd: Function }) => {
   )
 }
 
-export default AddHabit;
+export default CreateHabit;

@@ -1,4 +1,3 @@
-import './../Habits.css';
 import './HabitList.css';
 import HabitListItem from "./HabitListItem";
 import { HabitRecord } from "../models/habit-record";
@@ -12,7 +11,7 @@ interface HabitListProps {
 const HabitList = ({ habitRecords, reloadRecords, onEdit }: HabitListProps) => {
 
   const habitItems = habitRecords.map(habitRecord =>
-    <li key={habitRecord.habitId} className='habit-card'>
+    <li key={habitRecord.habitId}>
       <HabitListItem habitRecord={habitRecord} reloadRecords={reloadRecords} onEdit={onEdit}></HabitListItem>
     </li>
   );

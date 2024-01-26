@@ -1,6 +1,7 @@
-import { useState } from "react";
-import DisplayHabit from "./DisplayHabit";
-import EditHabit from "./EditHabit";
+import '../Habits.css';
+import { useState } from 'react';
+import DisplayHabit from './DisplayHabit';
+import EditHabit from './EditHabit';
 import HabitChart from './chart/HabitChart';
 import { HabitRecord } from '../models/habit-record';
 
@@ -14,7 +15,7 @@ const HabitListItem = ({ habitRecord, reloadRecords, onEdit }: HabitListItemProp
   const [displayEdit, setDisplayEdit] = useState<Boolean>();
 
   return (
-    <div>
+    <div className="habit-card">
       {displayEdit ?
         <EditHabit habit={habitRecord} onEdit={onEdit} setDisplayEdit={setDisplayEdit}></EditHabit> :
         <DisplayHabit habitRecord={habitRecord} setDisplayEdit={setDisplayEdit} reloadRecords={reloadRecords}></DisplayHabit>}

@@ -1,4 +1,3 @@
-import '../Habits.css';
 import { useState } from "react";
 import DisplayHabit from "./DisplayHabit";
 import EditHabit from "./EditHabit";
@@ -15,7 +14,7 @@ const HabitListItem = ({ habitRecord, reloadRecords, onEdit }: HabitListItemProp
   const [displayEdit, setDisplayEdit] = useState<Boolean>();
 
   return (
-    <div className="habit-card">
+    <div>
       {displayEdit ?
         <EditHabit habit={habitRecord} onEdit={onEdit} setDisplayEdit={setDisplayEdit}></EditHabit> :
         <DisplayHabit habitRecord={habitRecord} setDisplayEdit={setDisplayEdit} reloadRecords={reloadRecords}></DisplayHabit>}

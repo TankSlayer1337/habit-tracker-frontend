@@ -7,4 +7,5 @@ li {
   display: inline-block;
   vertical-align: top;
   width: 100%;
+  max-width: 480px;
 }
